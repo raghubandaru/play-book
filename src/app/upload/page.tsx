@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Upload() {
-  const [progress, setProgress] = useState(0);
+  const router = useRouter();
 
   async function upload(file: File) {
     //
@@ -62,7 +62,7 @@ export default function Upload() {
       }),
     });
 
-    alert("Upload complete");
+    router.push("/files");
   }
 
   return <input type="file" onChange={(e) => upload(e.target.files![0])} />;

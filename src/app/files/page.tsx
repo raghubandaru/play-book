@@ -1,4 +1,4 @@
-import { getFiles } from "@/services/fileService";
+import { getFiles } from "@/services/file-service/service";
 
 export default async function FilesList() {
   const files = await getFiles();

@@ -1,11 +1,13 @@
-import styles from "./page.module.css";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <h1>Hello Play book project</h1>
-      </main>
-    </div>
+    <main style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+      <h1>Play Book</h1>
+      <nav style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+        <Link href="/upload">Upload</Link>
+        <Link href="/files">Files</Link>
+      </nav>
+    </main>
   );
 }

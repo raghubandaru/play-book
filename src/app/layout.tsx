@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { AuthProvider } from "@/context/auth";
 import { getSessionUserId } from "@/services/auth-service/server";
 import { LogoutButton } from "@/components/logout-button";
 
@@ -31,24 +30,22 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <AuthProvider>
-          <nav style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
-            {userId ? (
-              <>
-                <Link href="/upload">Upload</Link>
-                <Link href="/files">Files</Link>
-                <Link href="/me">Me</Link>
-                <LogoutButton />
-              </>
-            ) : (
-              <>
-                <Link href="/signup">Sign up</Link>
-                <Link href="/login">Login</Link>
-              </>
-            )}
-          </nav>
-          {children}
-        </AuthProvider>
+        <nav style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+          {userId ? (
+            <>
+              <Link href="/upload">Upload</Link>
+              <Link href="/files">Files</Link>
+              <Link href="/me">Me</Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <Link href="/signup">Sign up</Link>
+              <Link href="/login">Login</Link>
+            </>
+          )}
+        </nav>
+        {children}
       </body>
     </html>
   );

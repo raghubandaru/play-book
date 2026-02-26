@@ -1,25 +1,8 @@
-"use client";
+import { signupAction } from "@/actions/auth";
 
 export default function Signup() {
-  async function signUpUser(formData: FormData) {
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (!res.ok) return;
-
-    window.location.href = "/me";
-  }
-
   return (
-    <form action={signUpUser}>
+    <form action={signupAction}>
       <p>
         <label htmlFor="email">Email</label>
         <input type="email" name="email" id="email" />

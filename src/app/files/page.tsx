@@ -1,9 +1,15 @@
+import { redirect } from "next/navigation";
+import { getSessionUserId } from "@/services/auth-service/server";
 import { getFiles } from "@/services/file-service/service";
 
 export const dynamic = "force-dynamic";
 
 export default async function FilesList() {
-  const files = await getFiles();
+  const userId = await getSessionUserId();
+
+  if (!userId) redirect("/login");
+
+  const files = await getFiles(userId);
 
   return (
     <div

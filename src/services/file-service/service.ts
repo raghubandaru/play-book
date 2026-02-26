@@ -4,8 +4,8 @@ import { v4 as uuid } from "uuid";
 import s3 from "@/lib/s3";
 import { findFiles, insertFile } from "./repository";
 
-export async function getFiles() {
-  const files = await findFiles();
+export async function getFiles(userId: string) {
+  const files = await findFiles(userId);
   return Promise.all(
     files.map(async (file) => {
       const url = await getSignedUrl(
@@ -33,13 +33,17 @@ export async function getUploadUrl(filename: string, contentType: string) {
   return { uploadUrl, fileUrl, key };
 }
 
-export async function saveFile(data: {
-  key: string;
-  fileUrl: string;
-  filename: string;
-  size: number;
-}) {
+export async function saveFile(
+  userId: string,
+  data: {
+    key: string;
+    fileUrl: string;
+    filename: string;
+    size: number;
+  },
+) {
   return insertFile({
+    userId,
     key: data.key,
     url: data.fileUrl,
     filename: data.filename,

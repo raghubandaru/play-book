@@ -1,7 +1,8 @@
-import { WithId } from "mongodb";
-import clientPromise from "@/lib/mongodb";
+import dbPromise from "@/lib/mongoose";
+import { File } from "@/models/File";
 
 export type FileDoc = {
+  userId: string;
   key: string;
   url: string;
   filename: string;
@@ -9,21 +10,14 @@ export type FileDoc = {
   createdAt: Date;
 };
 
-export async function findFiles(limit = 50): Promise<WithId<FileDoc>[]> {
-  const client = await clientPromise;
-  return client
-    .db("files")
-    .collection<FileDoc>("uploads")
-    .find({})
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .toArray();
+export async function findFiles(userId: string, limit = 50) {
+  await dbPromise;
+
+  return File.find({ userId }).sort({ createdAt: -1 }).limit(limit).lean();
 }
 
 export async function insertFile(data: Omit<FileDoc, "createdAt">) {
-  const client = await clientPromise;
-  return client
-    .db("files")
-    .collection<FileDoc>("uploads")
-    .insertOne({ ...data, createdAt: new Date() });
+  await dbPromise;
+
+  return File.create(data);
 }

@@ -1,9 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useRequireAuth } from "@/hooks/use-require-auth";
 
 export default function Upload() {
   const router = useRouter();
+  const { accessToken, isLoading } = useRequireAuth();
 
   async function upload(file: File) {
     //
@@ -12,14 +14,12 @@ export default function Upload() {
 
     const res = await fetch("/api/upload-url", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
-
       body: JSON.stringify({
         filename: file.name,
-
         contentType: file.type,
       }),
     });
@@ -32,11 +32,9 @@ export default function Upload() {
 
     await fetch(uploadUrl, {
       method: "PUT",
-
       headers: {
         "Content-Type": file.type,
       },
-
       body: file,
     });
 
@@ -46,24 +44,22 @@ export default function Upload() {
 
     await fetch("/api/save-file", {
       method: "POST",
-
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
-
       body: JSON.stringify({
         key,
-
         fileUrl,
-
         filename: file.name,
-
         size: file.size,
       }),
     });
 
     router.push("/files");
   }
+
+  if (isLoading) return null;
 
   return <input type="file" onChange={(e) => upload(e.target.files![0])} />;
 }

@@ -79,27 +79,38 @@ export default function AuthForm({
       <div className={styles.title}>{title}</div>
 
       {state.errors?.general && (
-        <div className={styles.formError}>{state.errors.general}</div>
+        <div role="alert" className={styles.formError}>
+          {state.errors.general}
+        </div>
       )}
 
-      {fields.map((field) => (
-        <div key={field.name} className={styles.field}>
-          <Label htmlFor={field.name}>{field.label}</Label>
-          <Input
-            id={field.name}
-            name={field.name}
-            type={field.type || "text"}
-            value={values[field.name] ?? ""}
-            onBlur={(e) => handleBlur(field.name, e.target.value)}
-            onChange={(e) => handleChange(field.name, e.target.value)}
-          />
-          {getFieldError(field.name) && (
-            <span className={styles.fieldError}>
-              {getFieldError(field.name)}
+      {fields.map((field) => {
+        const fieldError = getFieldError(field.name);
+        const errorId = `${field.name}-error`;
+        return (
+          <div key={field.name} className={styles.field}>
+            <Label htmlFor={field.name}>{field.label}</Label>
+            <Input
+              id={field.name}
+              name={field.name}
+              type={field.type || "text"}
+              value={values[field.name] ?? ""}
+              aria-invalid={fieldError ? true : undefined}
+              aria-describedby={errorId}
+              onBlur={(e) => handleBlur(field.name, e.target.value)}
+              onChange={(e) => handleChange(field.name, e.target.value)}
+            />
+            <span
+              id={errorId}
+              className={styles.fieldError}
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              {fieldError ?? ""}
             </span>
-          )}
-        </div>
-      ))}
+          </div>
+        );
+      })}
 
       <Button type="submit" disabled={isPending || hasErrors}>
         {isPending ? "Loading…" : submitLabel}

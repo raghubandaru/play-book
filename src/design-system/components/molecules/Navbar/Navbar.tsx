@@ -6,8 +6,8 @@ type NavbarProps = {
 
 export default function Navbar({ children }: NavbarProps) {
   return (
-    <div className={styles.navbar}>
+    <nav className={styles.navbar} aria-label="Main">
       <div className={styles.inner}>{children}</div>
-    </div>
+    </nav>
   );
 }

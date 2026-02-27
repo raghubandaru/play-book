@@ -102,7 +102,7 @@ export function UploadForm() {
   if (status === "uploading") {
     return (
       <div className={styles.container}>
-        <div className={styles.uploading}>
+        <div role="status" aria-live="polite" className={styles.uploading}>
           <p>Uploading…</p>
         </div>
       </div>
@@ -111,26 +111,41 @@ export function UploadForm() {
 
   return (
     <Form className={styles.container} onSubmit={handleSubmit}>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <p role="alert" className={styles.error}>
+          {error}
+        </p>
+      )}
 
       <div
+        role="button"
+        tabIndex={0}
+        aria-label="Upload file: drag and drop or click to browse"
         className={`${styles.dropzone} ${isDragOver ? styles.active : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => inputRef.current?.click()}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
       >
         <input
           ref={inputRef}
           type="file"
           className={styles.hiddenInput}
+          aria-hidden="true"
+          tabIndex={-1}
           onChange={handleInputChange}
         />
         {preview ? (
           <img src={preview} alt="Preview" className={styles.previewImage} />
         ) : (
           <div className={styles.placeholder}>
-            <span className={styles.uploadIcon}>↑</span>
+            <span className={styles.uploadIcon} aria-hidden="true">↑</span>
             <p>Drag &amp; drop a file here, or click to browse</p>
           </div>
         )}

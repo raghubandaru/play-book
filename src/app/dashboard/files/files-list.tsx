@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./files-list.module.css";
 
 export type FileItem = {
@@ -26,6 +26,9 @@ function formatDate(iso: string): string {
 
 export function FilesList({ files }: { files: FileItem[] }) {
   const [selected, setSelected] = useState<FileItem | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     document.body.style.overflow = selected ? "hidden" : "";
@@ -34,6 +37,52 @@ export function FilesList({ files }: { files: FileItem[] }) {
     };
   }, [selected]);
 
+  // Move focus into modal on open; restore to trigger on close
+  useEffect(() => {
+    if (selected) {
+      closeButtonRef.current?.focus();
+    } else {
+      triggerRef.current?.focus();
+    }
+  }, [selected]);
+
+  function openModal(file: FileItem, trigger: HTMLElement) {
+    triggerRef.current = trigger;
+    setSelected(file);
+  }
+
+  function closeModal() {
+    setSelected(null);
+  }
+
+  function handleModalKeyDown(e: React.KeyboardEvent) {
+    if (e.key === "Escape") {
+      closeModal();
+      return;
+    }
+    if (e.key === "Tab" && modalRef.current) {
+      const focusable = Array.from(
+        modalRef.current.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  }
+
   return (
     <>
       <ul className={styles.list}>
@@ -41,7 +90,16 @@ export function FilesList({ files }: { files: FileItem[] }) {
           <li
             key={file.id}
             className={styles.row}
-            onClick={() => setSelected(file)}
+            role="button"
+            tabIndex={0}
+            aria-label={`Preview ${file.filename}`}
+            onClick={(e) => openModal(file, e.currentTarget)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openModal(file, e.currentTarget);
+              }
+            }}
           >
             <img
               src={file.url}
@@ -57,17 +115,20 @@ export function FilesList({ files }: { files: FileItem[] }) {
       </ul>
 
       {selected && (
-        <div
-          className={styles.overlay}
-          onClick={() => setSelected(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label={selected.filename}
-        >
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+        <div className={styles.overlay} onClick={closeModal}>
+          <div
+            ref={modalRef}
+            className={styles.modal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-filename"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={handleModalKeyDown}
+          >
             <button
+              ref={closeButtonRef}
               className={styles.modalClose}
-              onClick={() => setSelected(null)}
+              onClick={closeModal}
               aria-label="Close preview"
             >
               ×
@@ -82,7 +143,9 @@ export function FilesList({ files }: { files: FileItem[] }) {
             </div>
 
             <div className={styles.modalFooter}>
-              <span className={styles.modalFilename}>{selected.filename}</span>
+              <span id="modal-filename" className={styles.modalFilename}>
+                {selected.filename}
+              </span>
               <span className={styles.modalDetail}>
                 {formatSize(selected.size)} · {formatDate(selected.createdAt)}
               </span>

@@ -1,8 +1,6 @@
 import styles from "./AuthForm.module.css";
 
-import Input from "@/components/atoms/Input/Input";
-import Button from "@/components/atoms/Button/Button";
-import Label from "@/components/atoms/Label/Label";
+import { Button, Input, Label } from "@ds";
 
 type Field = {
   name: string;

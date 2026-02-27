@@ -1,6 +1,5 @@
 import { logoutAction } from "@/actions/auth";
-import Button from "@/components/atoms/Button/Button";
-import Form from "@/components/molecules/Form/Form";
+import { Button, Form } from "@ds";
 
 export default function LogoutButton() {
   return (

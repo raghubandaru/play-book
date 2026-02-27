@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getSessionUserId } from "@/services/auth-service/server";
-import Navbar from "@/components/molecules/Navbar/Navbar";
+import { Navbar } from "@ds";
 import LogoutButton from "@/features/components/LogoutButton/LogoutButton";
 
 export const metadata: Metadata = {

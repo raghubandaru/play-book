@@ -19,7 +19,10 @@ export async function loginAction(
   if (!result.success) return { errors: fieldErrors(result.error) };
 
   try {
-    const { refreshToken } = await login(result.data.email, result.data.password);
+    const { refreshToken } = await login(
+      result.data.email,
+      result.data.password,
+    );
 
     (await cookies()).set("refreshToken", refreshToken, {
       httpOnly: true,
@@ -35,7 +38,7 @@ export async function loginAction(
     };
   }
 
-  redirect("/profile");
+  redirect("/user/profile");
 }
 
 export async function signupAction(
@@ -72,7 +75,7 @@ export async function signupAction(
     };
   }
 
-  redirect("/profile");
+  redirect("/user/profile");
 }
 
 export async function logoutAction() {

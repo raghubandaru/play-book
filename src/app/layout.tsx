@@ -24,9 +24,9 @@ export default async function RootLayout({
         <Navbar>
           {userId ? (
             <>
-              <Link href="/dashboard/upload">Upload</Link>
-              <Link href="/dashboard/files">Files</Link>
-              <Link href="/profile">Profile</Link>
+              <Link href="/file/upload">Upload</Link>
+              <Link href="/file/list">Files</Link>
+              <Link href="/user/profile">Profile</Link>
               <LogoutButton />
             </>
           ) : (

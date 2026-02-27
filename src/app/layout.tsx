@@ -1,19 +1,9 @@
+import "@/styles/globals.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
 import Link from "next/link";
 import { getSessionUserId } from "@/services/auth-service/server";
-import { LogoutButton } from "@/components/logout-button";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navbar from "@/components/molecules/Navbar/Navbar";
+import LogoutButton from "@/features/components/LogoutButton/LogoutButton";
 
 export const metadata: Metadata = {
   title: "Play book",
@@ -29,22 +19,22 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <nav style={{ display: "flex", gap: "1rem", marginTop: "1rem" }}>
+      <body>
+        <Navbar>
           {userId ? (
             <>
-              <Link href="/upload">Upload</Link>
-              <Link href="/files">Files</Link>
-              <Link href="/me">Me</Link>
+              <Link href="/dashboard/upload">Upload</Link>
+              <Link href="/dashboard/files">Files</Link>
+              <Link href="/profile">Profile</Link>
               <LogoutButton />
             </>
           ) : (
             <>
-              <Link href="/signup">Sign up</Link>
-              <Link href="/login">Login</Link>
+              <Link href="/auth/signup">Sign up</Link>
+              <Link href="/auth/login">Login</Link>
             </>
           )}
-        </nav>
+        </Navbar>
         {children}
       </body>
     </html>

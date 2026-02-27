@@ -1,0 +1,11 @@
+:root {
+  /* layout */
+  --auth-container-background: var(--surface-secondary);
+  /* card */
+  --auth-card-width: 420px;
+  --auth-card-background: var(--surface-primary);
+  --auth-card-padding: var(--space-12);
+  --auth-card-radius: var(--radius-3);
+  --auth-card-border: var(--border-default);
+  --auth-card-shadow: var(--shadow-1);
+}

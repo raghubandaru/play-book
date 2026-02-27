@@ -17,7 +17,7 @@ export async function loginAction(formData: FormData) {
     path: "/",
   });
 
-  redirect("/me");
+  redirect("/profile");
 }
 
 export async function signupAction(formData: FormData) {
@@ -33,7 +33,7 @@ export async function signupAction(formData: FormData) {
     path: "/",
   });
 
-  redirect("/me");
+  redirect("/profile");
 }
 
 export async function logoutAction() {
@@ -44,5 +44,5 @@ export async function logoutAction() {
 
   cookieStore.delete("refreshToken");
 
-  redirect("/login");
+  redirect("/auth/login");
 }

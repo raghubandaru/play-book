@@ -1,0 +1,5 @@
+:root {
+  --surface-primary: var(--white);
+  --surface-secondary: var(--grey-50);
+  --surface-brand: var(--blue-500);
+}

@@ -1,0 +1,8 @@
+:root {
+  --button-bg-primary: var(--interactive-primary);
+  --button-bg-primary-hover: var(--interactive-primary-hover);
+  --button-text-primary: var(--text-on-brand);
+  --button-radius: var(--radius-2);
+  --button-padding-y: var(--space-2);
+  --button-padding-x: var(--space-4);
+}

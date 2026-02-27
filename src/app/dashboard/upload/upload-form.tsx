@@ -38,7 +38,7 @@ export function UploadForm() {
       body: JSON.stringify({ key, fileUrl, filename: file.name, size: file.size }),
     });
 
-    router.push("/files");
+    router.push("/dashboard/files");
   }
 
   return <input type="file" onChange={(e) => upload(e.target.files![0])} />;

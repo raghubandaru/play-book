@@ -1,0 +1,11 @@
+:root {
+  --text-heading-size: var(--font-size-5);
+
+  --text-heading-weight: var(--font-weight-semibold);
+
+  --text-body-size: var(--font-size-3);
+
+  --text-body-color: var(--text-primary);
+
+  --text-muted-color: var(--text-secondary);
+}

@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function FilesList() {
   const userId = await getSessionUserId();
 
-  if (!userId) redirect("/login");
+  if (!userId) redirect("/auth/login");
 
   const files = await getFiles(userId);
 

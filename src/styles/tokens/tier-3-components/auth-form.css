@@ -1,0 +1,9 @@
+:root {
+  --auth-form-title-size: var(--font-size-5);
+
+  --auth-form-title-weight: var(--font-weight-semibold);
+
+  --auth-form-field-spacing: var(--space-4);
+
+  --auth-form-footer-spacing: var(--space-6);
+}

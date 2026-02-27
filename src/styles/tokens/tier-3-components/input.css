@@ -1,0 +1,17 @@
+:root {
+  --input-height: 40px;
+
+  --input-padding-x: var(--space-3);
+
+  --input-font-size: var(--font-size-3);
+
+  --input-background: var(--surface-primary);
+
+  --input-text-color: var(--text-primary);
+
+  --input-border: var(--border-default);
+
+  --input-radius: var(--radius-2);
+
+  --input-border-focus: var(--interactive-primary);
+}

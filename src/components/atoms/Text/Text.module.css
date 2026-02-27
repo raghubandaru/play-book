@@ -1,0 +1,13 @@
+.heading {
+  font-size: var(--text-heading-size);
+  font-weight: var(--text-heading-weight);
+}
+
+.body {
+  font-size: var(--text-body-size);
+  color: var(--text-body-color);
+}
+
+.muted {
+  color: var(--text-muted-color);
+}

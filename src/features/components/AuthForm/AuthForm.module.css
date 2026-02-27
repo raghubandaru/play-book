@@ -1,0 +1,13 @@
+.title {
+  font-size: var(--auth-form-title-size);
+  font-weight: var(--auth-form-title-weight);
+  margin-bottom: var(--auth-form-field-spacing);
+}
+
+.field {
+  margin-bottom: var(--auth-form-field-spacing);
+}
+
+.footer {
+  margin-top: var(--auth-form-footer-spacing);
+}

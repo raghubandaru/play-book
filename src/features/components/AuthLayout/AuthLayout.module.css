@@ -1,0 +1,16 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--auth-container-background);
+}
+
+.card {
+  width: var(--auth-card-width);
+  background: var(--auth-card-background);
+  padding: var(--auth-card-padding);
+  border-radius: var(--auth-card-radius);
+  border: 1px solid var(--auth-card-border);
+  box-shadow: var(--auth-card-shadow);
+}

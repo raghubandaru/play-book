@@ -1,0 +1,9 @@
+:root {
+  --navbar-height: 60px;
+
+  --navbar-background: var(--surface-primary);
+
+  --navbar-border: var(--border-default);
+
+  --navbar-padding-x: var(--space-6);
+}

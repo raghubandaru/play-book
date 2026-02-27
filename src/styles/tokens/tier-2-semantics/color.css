@@ -1,0 +1,4 @@
+:root {
+  --interactive-primary: var(--blue-500);
+  --interactive-primary-hover: var(--blue-600);
+}

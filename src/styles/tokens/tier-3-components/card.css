@@ -1,0 +1,6 @@
+:root {
+  --card-bg: var(--surface-primary);
+  --card-border: var(--border-default);
+  --card-shadow: var(--shadow-2);
+  --card-radius: var(--radius-3);
+}

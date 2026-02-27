@@ -1,0 +1,9 @@
+:root {
+  --label-font-size: var(--font-size-2);
+
+  --label-font-weight: var(--font-weight-medium);
+
+  --label-text-color: var(--text-primary);
+
+  --label-margin-bottom: var(--space-1);
+}

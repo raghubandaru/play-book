@@ -1,3 +1,4 @@
 {
-  "css.lint.unknownProperties": "ignore"
+  "css.validate": false,
+  "stylelint.enable": true
 }

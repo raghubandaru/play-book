@@ -60,7 +60,7 @@
   composes: flexCenter from '../../../design-system/utils.module.css';
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgb(0 0 0 / 60%);
   z-index: 100;
   padding: var(--space-4);
 }
@@ -85,7 +85,7 @@
   height: 32px;
   border-radius: 50%;
   border: none;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgb(0 0 0 / 45%);
   color: var(--white);
   font-size: 1.25rem;
   line-height: 1;
@@ -95,7 +95,7 @@
 }
 
 .modalClose:hover {
-  background: rgba(0, 0, 0, 0.7);
+  background: rgb(0 0 0 / 70%);
 }
 
 .modalImageWrap {

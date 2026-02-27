@@ -24,8 +24,12 @@ function formatDate(iso: string): string {
   }).format(new Date(iso));
 }
 
-export function FilesList({ files }: { files: FileItem[] }) {
+export function FilesList({ files: initialFiles }: { files: FileItem[] }) {
+  const [files, setFiles] = useState(initialFiles);
   const [selected, setSelected] = useState<FileItem | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -37,7 +41,6 @@ export function FilesList({ files }: { files: FileItem[] }) {
     };
   }, [selected]);
 
-  // Move focus into modal on open; restore to trigger on close
   useEffect(() => {
     if (selected) {
       closeButtonRef.current?.focus();
@@ -49,15 +52,42 @@ export function FilesList({ files }: { files: FileItem[] }) {
   function openModal(file: FileItem, trigger: HTMLElement) {
     triggerRef.current = trigger;
     setSelected(file);
+    setConfirmDelete(false);
+    setDeleteError(null);
   }
 
   function closeModal() {
     setSelected(null);
+    setConfirmDelete(false);
+    setDeleteError(null);
+  }
+
+  async function handleDelete() {
+    if (!selected) return;
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    const res = await fetch(`/api/files/${selected.id}`, { method: "DELETE" });
+
+    if (!res.ok) {
+      const { error } = await res.json();
+      setDeleteError(error ?? "Delete failed.");
+      setIsDeleting(false);
+      return;
+    }
+
+    setFiles((prev) => prev.filter((f) => f.id !== selected.id));
+    setIsDeleting(false);
+    closeModal();
   }
 
   function handleModalKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Escape") {
-      closeModal();
+      if (confirmDelete) {
+        setConfirmDelete(false);
+      } else {
+        closeModal();
+      }
       return;
     }
     if (e.key === "Tab" && modalRef.current) {
@@ -81,6 +111,10 @@ export function FilesList({ files }: { files: FileItem[] }) {
         }
       }
     }
+  }
+
+  if (files.length === 0) {
+    return <p className={styles.empty}>No files yet. Upload one!</p>;
   }
 
   return (
@@ -149,6 +183,43 @@ export function FilesList({ files }: { files: FileItem[] }) {
               <span className={styles.modalDetail}>
                 {formatSize(selected.size)} · {formatDate(selected.createdAt)}
               </span>
+
+              {deleteError && (
+                <p role="alert" className={styles.modalDeleteError}>
+                  {deleteError}
+                </p>
+              )}
+
+              {confirmDelete ? (
+                <div className={styles.modalDeleteConfirm}>
+                  <span className={styles.modalDeletePrompt}>
+                    Delete this file?
+                  </span>
+                  <div className={styles.modalDeleteActions}>
+                    <button
+                      className={styles.modalDeleteConfirmBtn}
+                      onClick={handleDelete}
+                      disabled={isDeleting}
+                    >
+                      {isDeleting ? "Deleting…" : "Yes, delete"}
+                    </button>
+                    <button
+                      className={styles.modalDeleteCancelBtn}
+                      onClick={() => setConfirmDelete(false)}
+                      disabled={isDeleting}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className={styles.modalDeleteBtn}
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  Delete file
+                </button>
+              )}
             </div>
           </div>
         </div>

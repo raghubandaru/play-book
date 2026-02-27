@@ -1,8 +1,20 @@
-import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  DeleteObjectsCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { v4 as uuid } from "uuid";
 import s3 from "@/lib/s3";
-import { findFiles, insertFile } from "./repository";
+import {
+  deleteFileById,
+  deleteFilesByUserId,
+  findFileById,
+  findFileKeysByUserId,
+  findFiles,
+  insertFile,
+} from "./repository";
 
 export async function getFiles(userId: string) {
   const files = await findFiles(userId);
@@ -31,6 +43,33 @@ export async function getUploadUrl(filename: string, contentType: string) {
   );
   const fileUrl = `https://${process.env.S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
   return { uploadUrl, fileUrl, key };
+}
+
+export async function deleteFile(userId: string, fileId: string) {
+  const file = await findFileById(fileId, userId);
+
+  if (!file) throw new Error("File not found");
+
+  await s3.send(
+    new DeleteObjectCommand({ Bucket: process.env.S3_BUCKET, Key: file.key }),
+  );
+
+  await deleteFileById(fileId);
+}
+
+export async function deleteUserFiles(userId: string) {
+  const keys = await findFileKeysByUserId(userId);
+
+  if (keys.length > 0) {
+    await s3.send(
+      new DeleteObjectsCommand({
+        Bucket: process.env.S3_BUCKET,
+        Delete: { Objects: keys.map((Key) => ({ Key })) },
+      }),
+    );
+  }
+
+  await deleteFilesByUserId(userId);
 }
 
 export async function saveFile(

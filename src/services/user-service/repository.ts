@@ -48,3 +48,9 @@ export async function findUserById(id: string): Promise<UserDocument | null> {
     _id: user._id.toString(),
   };
 }
+
+export async function deleteUserById(id: string) {
+  await dbPromise;
+
+  await User.deleteOne({ _id: id });
+}

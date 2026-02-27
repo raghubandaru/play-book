@@ -21,3 +21,28 @@ export async function insertFile(data: Omit<FileDoc, "createdAt">) {
 
   return File.create(data);
 }
+
+export async function findFileById(id: string, userId: string) {
+  await dbPromise;
+
+  return File.findOne({ _id: id, userId }).lean();
+}
+
+export async function deleteFileById(id: string) {
+  await dbPromise;
+
+  await File.deleteOne({ _id: id });
+}
+
+export async function findFileKeysByUserId(userId: string): Promise<string[]> {
+  await dbPromise;
+
+  const files = await File.find({ userId }).select("key").lean();
+  return files.map((f) => f.key);
+}
+
+export async function deleteFilesByUserId(userId: string) {
+  await dbPromise;
+
+  await File.deleteMany({ userId });
+}

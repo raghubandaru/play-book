@@ -27,3 +27,9 @@ export async function deleteSession(refreshToken: string) {
 
   await Session.deleteOne({ refreshToken });
 }
+
+export async function deleteSessionsByUserId(userId: string) {
+  await dbPromise;
+
+  await Session.deleteMany({ userId });
+}

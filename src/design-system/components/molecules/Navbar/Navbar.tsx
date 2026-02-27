@@ -5,5 +5,9 @@ type NavbarProps = {
 };
 
 export default function Navbar({ children }: NavbarProps) {
-  return <div className={styles.navbar}>{children}</div>;
+  return (
+    <div className={styles.navbar}>
+      <div className={styles.inner}>{children}</div>
+    </div>
+  );
 }

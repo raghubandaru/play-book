@@ -10,10 +10,11 @@ export default function Register() {
         title="Create your account"
         submitLabel="Create account"
         action={signupAction}
+        schemaKey="signup"
         fields={[
           {
             name: "name",
-            label: "Full name",
+            label: "Name",
           },
           {
             name: "email",

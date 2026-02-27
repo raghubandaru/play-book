@@ -3,15 +3,17 @@ import { User } from "@/models/User";
 import { UserDocument } from "./types";
 
 export async function createUser(
+  name: string,
   email: string,
   password: string,
 ): Promise<UserDocument> {
   await dbPromise;
 
-  const user = await User.create({ email, password });
+  const user = await User.create({ name, email, password });
 
   return {
     _id: user._id.toString(),
+    name: user.name,
     email: user.email,
     password: user.password,
     createdAt: user.createdAt,

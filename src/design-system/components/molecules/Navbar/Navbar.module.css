@@ -2,8 +2,12 @@
   height: var(--navbar-height);
   background: var(--navbar-background);
   border-bottom: 1px solid var(--navbar-border);
+}
+
+.inner {
+  composes: flexBetween from '../../../utils.module.css';
+  max-width: var(--layout-max-width);
+  margin: 0 auto;
+  height: 100%;
   padding: 0 var(--navbar-padding-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }

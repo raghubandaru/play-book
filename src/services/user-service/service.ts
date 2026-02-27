@@ -7,6 +7,7 @@ export async function getUser(userId: string) {
 
   return {
     id: user._id,
+    name: user.name,
     email: user.email,
   };
 }
@@ -15,6 +16,10 @@ export async function findUserByEmail(email: string) {
   return userRepo.findUserByEmail(email);
 }
 
-export async function createUser(email: string, hashedPassword: string) {
-  return userRepo.createUser(email, hashedPassword);
+export async function createUser(
+  name: string,
+  email: string,
+  hashedPassword: string,
+) {
+  return userRepo.createUser(name, email, hashedPassword);
 }

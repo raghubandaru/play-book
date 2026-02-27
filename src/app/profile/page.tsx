@@ -9,5 +9,10 @@ export default async function Profile() {
 
   const user = await getUser(userId);
 
-  return user.email;
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <i>{user.email}</i>
+    </div>
+  );
 }

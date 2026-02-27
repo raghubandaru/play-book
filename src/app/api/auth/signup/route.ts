@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { signup } from "@/services/auth-service/service";
+import { signupSchema } from "@/lib/schemas/auth";
 
 export async function POST(request: Request) {
-  try {
-    const body = await request.json();
+  const body = await request.json();
+  const result = signupSchema.safeParse(body);
 
-    const { accessToken, refreshToken, user } = await signup(
-      body.email,
-      body.password,
-    );
+  if (!result.success) {
+    const message = result.error.issues[0]?.message ?? "Invalid request";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+
+  try {
+    const { name, email, password } = result.data;
+    const { accessToken, refreshToken, user } = await signup(name, email, password);
 
     (await cookies()).set("refreshToken", refreshToken, {
       httpOnly: true,
@@ -18,10 +23,7 @@ export async function POST(request: Request) {
       path: "/",
     });
 
-    return NextResponse.json({
-      accessToken,
-      user,
-    });
+    return NextResponse.json({ accessToken, user });
   } catch (e: unknown) {
     const errorMessage =
       e instanceof Error ? e.message : "An unknown error occurred";

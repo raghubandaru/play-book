@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getSessionUserId } from "@/services/auth-service/server";
 import { Navbar } from "@ds";
 import LogoutButton from "@/features/components/LogoutButton/LogoutButton";
+import styles from "./layout.module.css";
 
 export const metadata: Metadata = {
   title: "Play book",
@@ -35,7 +36,7 @@ export default async function RootLayout({
             </>
           )}
         </Navbar>
-        {children}
+        <main className={styles.container}>{children}</main>
       </body>
     </html>
   );

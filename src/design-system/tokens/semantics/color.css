@@ -1,4 +1,8 @@
 :root {
   --interactive-primary: var(--blue-500);
   --interactive-primary-hover: var(--blue-600);
+
+  --color-error: #dc2626;
+  --color-error-bg: #fef2f2;
+  --color-error-border: #fecaca;
 }

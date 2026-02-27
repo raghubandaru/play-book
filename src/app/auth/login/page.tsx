@@ -10,6 +10,7 @@ export default function Login() {
         title="Sign in to PlayBook"
         submitLabel="Sign in"
         action={loginAction}
+        schemaKey="login"
         fields={[
           {
             name: "email",

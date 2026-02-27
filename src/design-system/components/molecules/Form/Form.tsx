@@ -1,8 +1,11 @@
-type FormProps = {
-  action: string | ((formData: FormData) => void | Promise<void>);
-  children: React.ReactNode;
+type FormProps = Omit<React.ComponentProps<"form">, "action"> & {
+  action?: string | ((formData: FormData) => void | Promise<void>);
 };
 
-export default function Form({ action, children }: FormProps) {
-  return <form action={action}>{children}</form>;
+export default function Form({ action, children, ...rest }: FormProps) {
+  return (
+    <form action={action} {...rest}>
+      {children}
+    </form>
+  );
 }

@@ -11,3 +11,19 @@
 .footer {
   margin-top: var(--auth-form-footer-spacing);
 }
+
+.formError {
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error-border);
+  color: var(--color-error);
+  border-radius: var(--radius-1);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-2);
+  margin-bottom: var(--auth-form-field-spacing);
+}
+
+.fieldError {
+  color: var(--color-error);
+  font-size: var(--font-size-1);
+  margin-top: var(--space-1);
+}

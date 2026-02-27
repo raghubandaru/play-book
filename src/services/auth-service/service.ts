@@ -7,13 +7,13 @@ import { createAccessToken, generateRefreshToken } from "./jwt";
 
 const REFRESH_DAYS = 30;
 
-export async function signup(email: string, password: string) {
+export async function signup(name: string, email: string, password: string) {
   const existing = await userService.findUserByEmail(email);
   if (existing) throw new Error("User exists");
 
   const hashed = await hashPassword(password);
 
-  const user = await userService.createUser(email, hashed);
+  const user = await userService.createUser(name, email, hashed);
 
   const { accessToken, refreshToken } = await createSession(user._id!);
 

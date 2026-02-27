@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUserId } from "@/services/auth-service/server";
 import { getUploadUrl } from "@/services/file-service/service";
+import { uploadRequestSchema } from "@/lib/schemas/upload";
 
 export async function POST(req: NextRequest) {
   const userId = await getSessionUserId();
 
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { filename, contentType } = await req.json();
-  const result = await getUploadUrl(filename, contentType);
-  return NextResponse.json(result);
+  const body = await req.json();
+  const result = uploadRequestSchema.safeParse(body);
+
+  if (!result.success) {
+    const message = result.error.issues[0]?.message ?? "Invalid request";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+
+  const { filename, contentType } = result.data;
+  const uploadResult = await getUploadUrl(filename, contentType);
+  return NextResponse.json(uploadResult);
 }

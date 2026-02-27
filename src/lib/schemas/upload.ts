@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const MAX_FILE_SIZE = 1024; // 5 MB
+export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export const uploadRequestSchema = z.object({
   filename: z.string().min(1, "Filename is required"),

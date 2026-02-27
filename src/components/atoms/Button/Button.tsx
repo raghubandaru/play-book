@@ -1,11 +1,10 @@
 import styles from "./Button.module.css";
 import clsx from "clsx";
 
-type Props = {
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children: React.ReactNode;
   variant?: "primary" | "secondary";
   onClick?: () => void;
-  type: string;
 };
 
 export default function Button({

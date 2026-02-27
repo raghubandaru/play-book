@@ -1,5 +1,9 @@
 import styles from "./Navbar.module.css";
 
-export default function Navbar({ children }) {
+type NavbarProps = {
+  children: React.ReactNode;
+};
+
+export default function Navbar({ children }: NavbarProps) {
   return <div className={styles.navbar}>{children}</div>;
 }
